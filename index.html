@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+
+<body>
+    <script>    
+        document.onreadystatechange=function(){
+            let defaultCategory = document.getElementById("category").options[0].value;
+            selectCategory(defaultCategory)
+
+            document.getElementById("copyButton").addEventListener("click", function(e){
+                let textToCopy = document.getElementById("textRender").innerHTML;
+                navigator.clipboard.writeText(textToCopy)
+                .then(() => {
+                    // actions to take
+                    console.log("copied text: " + textToCopy)
+                })
+                .catch(err => {
+                    console.log('Something went wrong', err);
+                });
+            },false);
+        }
+    
+        function selectCategory(categoryInput){
+            let textRender = "";
+            let symptomForm = document.getElementsByName("symptomForm")[0];
+            let symptoms = [];
+            symptomForm.innerHTML = '';
+            switch(categoryInput) {
+                case "llm":
+                    symptoms = [
+                        {id: "similar", label: "similar output as ChatGPT"},
+                        {id: "bullet", label: "bullet-list format"},
+                        {id: "llmSpam", label: "potential LLM spamming behaviour"},
+                        {id: "inconsistent", label: "inconsistent writing styles"},
+                        {id: "wpm", label: "high wpm"}
+                    ];
+                    break;
+                case "spam":
+                    symptoms = [
+                        {id: "undisclosed", label: "undisclosed affiliation"},
+                        {id: "linkonly", label: "link-only answer"}
+                    ];
+                    break;
+                default:
+                    break;
+            }
+            symptoms.forEach(function(symptom) {
+                let checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.name = "symptomCheckbox"
+                checkbox.value = symptom.label;
+                checkbox.id = symptom.id;
+                checkbox.onclick = function selectSymptom(){
+                    checkedSymptoms = [...document.querySelectorAll('input[name=symptomCheckbox]:checked')].map(e => [e.id, e.value]);
+                    checkedSymptomIds = checkedSymptoms.map(e => e[0])
+                    switch(categoryInput) {
+                        case "llm":
+                            textRender = "LLM suspect."
+                            if(checkedSymptomIds.includes("similar") && checkedSymptomIds.includes("bullet")) {
+                                textRender += " Similar output as ChatGPT in bullet-list format."
+                            } else if (checkedSymptomIds.includes("similar")){
+                                textRender += " Similar output as ChatGPT."
+                            }
+                            let extraSymptoms = checkedSymptoms.filter(symptom => ["llmSpam", "inconsistent", "wpm"].includes(symptom[0]))
+                            let extraSymptomCount = extraSymptoms.reduce((acc, curr) => acc + 1, 0);
+                            if (extraSymptomCount >= 3) {
+                                textRender += " Also observed " + extraSymptoms.slice(0, -1).map(e => e[1]).join(", ")
+                                textRender += " and " + extraSymptoms.slice(-1).map(e => e[1]).join(", ")
+                                textRender += "."
+                            } else {
+                                textRender += " Also observed " + extraSymptoms.map(e => e[1]).join(" and ")
+                                textRender += "."
+                            }
+                            break;
+                        case "spam":
+                            textRender = ""
+                            if (checkedSymptomIds.includes("undisclosed")){
+                                textRender += "You need to disclose your affiliation with the linked product, otherwise it is regarded as spam. Read [How to not be a spammer](https://stackoverflow.com/help/promotion)."
+                            }
+                            if (checkedSymptomIds.includes("linkonly")){
+                                textRender += " Don't just post a link. Attach a demo and explanation on how the link can resolve OP's problem."
+                            } 
+                            break;
+                        default:
+                            break;
+                    }
+                    document.getElementById("textRender").innerHTML = textRender;
+                }
+                symptomForm.appendChild(checkbox);
+                let label = document.createElement("label");
+                label.htmlFor = symptom.label;
+                label.appendChild(document.createTextNode(symptom.label));
+                symptomForm.append(label);
+                symptomForm.append(document.createElement("br"));
+            })
+        }
+    </script> 
+    <form name="categoryForm">
+        <select name="category" id="category" onchange="selectCategory(this.value)" onload="selectCategory(this.value)">
+            <option value="llm">LLM</option>
+            <option value="spam">Spam</option>
+        </select>
+    </form>
+    <form name="symptomForm"></form>
+    <br>
+    <textarea id="textRender"></textarea>
+    <br>
+    <button id='copyButton'>Copy to Clipboard</button>
+</body>
+</html>

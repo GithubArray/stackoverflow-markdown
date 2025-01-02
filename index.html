@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html>
-
+<head>
+    <style>
+        #textRender {
+            width: 100%;
+            field-sizing: content;
+        }
+    </style>
+</head>
 
 <body>
     <script>    
@@ -18,6 +25,10 @@
                 .catch(err => {
                     console.log('Something went wrong', err);
                 });
+            },false);
+
+            document.getElementById("clearButton").addEventListener("click", function(e){
+                document.getElementById("textRender").innerHTML = "";
             },false);
         }
     
@@ -39,7 +50,19 @@
                 case "spam":
                     symptoms = [
                         {id: "undisclosed", label: "undisclosed affiliation"},
-                        {id: "linkonly", label: "link-only answer"}
+                        {id: "linkonly", label: "link-only answer"},
+                        {id: "job", label: "job offer"},
+                        {id: "disclosed", label: "disclosed"}
+                    ];
+                    break;
+                case "homework": 
+                    symptoms = [
+                        {id: "homework", label: "homework question"}
+                    ];
+                    break;
+                case "duplicate": 
+                    symptoms = [
+                        {id: "duplicate", label: "Duplicate answers"}
                     ];
                     break;
                 default:
@@ -81,7 +104,17 @@
                             if (checkedSymptomIds.includes("linkonly")){
                                 textRender += " Don't just post a link. Attach a demo and explanation on how the link can resolve OP's problem."
                             } 
+                            if (checkedSymptomIds.includes("job")){
+                                textRender = "[Are job offers spam?](https://meta.stackoverflow.com/q/276249/14732669)"
+                            }
+                            if (checkedSymptomIds.includes("disclosed")){
+                                textRender = "Even with the disclosure, this post, at its current status, serves only to promote the linked page."
+                            } 
                             break;
+                        case "homework":
+                            textRender = "[How do I ask and answer homework questions?](https://meta.stackoverflow.com/q/334822/14732669)"
+                        case "duplicate":
+                            textRender = "Don't crosspost the same answer to multiple questions. If you consider the same solution applies to multiple questions, flag/close them as duplicates."
                         default:
                             break;
                     }
@@ -100,12 +133,15 @@
         <select name="category" id="category" onchange="selectCategory(this.value)" onload="selectCategory(this.value)">
             <option value="llm">LLM</option>
             <option value="spam">Spam</option>
+            <option value="homework">Homework</option>
+            <option value="duplicate">Duplicate answers</option>
         </select>
     </form>
     <form name="symptomForm"></form>
     <br>
     <textarea id="textRender"></textarea>
     <br>
+    <button id='clearButton'>Clear</button>
     <button id='copyButton'>Copy to Clipboard</button>
 </body>
 </html>

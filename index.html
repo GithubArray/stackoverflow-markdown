@@ -2,7 +2,7 @@
 <html>
 <head>
     <style>
-        #textRender {
+        textarea {
             width: 100%;
             field-sizing: content;
         }
@@ -65,6 +65,10 @@
                         {id: "duplicate", label: "Duplicate answers"}
                     ];
                     break;
+                case "cs":
+                    symptoms = [
+                        {id: "cs", label: "Customer support question"}
+                    ]
                 default:
                     break;
             }
@@ -113,8 +117,13 @@
                             break;
                         case "homework":
                             textRender = "[How do I ask and answer homework questions?](https://meta.stackoverflow.com/q/334822/14732669)"
+                            break;
                         case "duplicate":
                             textRender = "Don't crosspost the same answer to multiple questions. If you consider the same solution applies to multiple questions, flag/close them as duplicates."
+                            break;
+                        case "cs":
+                            textRender = "[Why can't I ask customer service-related questions on Stack Overflow?](//meta.stackoverflow.com/a/255746)"
+                            break;
                         default:
                             break;
                     }
@@ -135,6 +144,7 @@
             <option value="spam">Spam</option>
             <option value="homework">Homework</option>
             <option value="duplicate">Duplicate answers</option>
+            <option value="cs">Customer support question</option>
         </select>
     </form>
     <form name="symptomForm"></form>

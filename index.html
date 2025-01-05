@@ -44,7 +44,8 @@
                         {id: "bullet", label: "bullet-list format"},
                         {id: "llmSpam", label: "potential LLM spamming behaviour"},
                         {id: "inconsistent", label: "inconsistent writing styles"},
-                        {id: "wpm", label: "high wpm"}
+                        {id: "wpm", label: "high wpm"},
+                        {id: "highAnswerRate", label: "high answer rate"}
                     ];
                     break;
                 case "spam":
@@ -89,16 +90,17 @@
                             } else if (checkedSymptomIds.includes("similar")){
                                 textRender += " Similar output as ChatGPT."
                             }
-                            let extraSymptoms = checkedSymptoms.filter(symptom => ["llmSpam", "inconsistent", "wpm"].includes(symptom[0]))
-                            let extraSymptomCount = extraSymptoms.reduce((acc, curr) => acc + 1, 0);
+                            let extraSymptoms = checkedSymptoms.filter(symptom => ["llmSpam", "inconsistent", "wpm", "highAnswerRate"].includes(symptom[0]))
+                            let extraSymptomCount = extraSymptoms.length;
                             if (extraSymptomCount >= 3) {
                                 textRender += " Also observed " + extraSymptoms.slice(0, -1).map(e => e[1]).join(", ")
                                 textRender += " and " + extraSymptoms.slice(-1).map(e => e[1]).join(", ")
                                 textRender += "."
-                            } else {
+                            } else if (extraSymptomCount > 0) {
                                 textRender += " Also observed " + extraSymptoms.map(e => e[1]).join(" and ")
                                 textRender += "."
                             }
+                            
                             break;
                         case "spam":
                             textRender = ""

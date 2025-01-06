@@ -83,6 +83,21 @@
                     checkedSymptoms = [...document.querySelectorAll('input[name=symptomCheckbox]:checked')].map(e => [e.id, e.value]);
                     checkedSymptomIds = checkedSymptoms.map(e => e[0])
                     switch(categoryInput) {
+                        case "spam":
+                            textRender = ""
+                            if (checkedSymptomIds.includes("undisclosed")){
+                                textRender += "You need to disclose your affiliation with the linked product, otherwise it is regarded as spam. Read [How to not be a spammer](https://stackoverflow.com/help/promotion)."
+                            }
+                            if (checkedSymptomIds.includes("linkonly")){
+                                textRender += " Don't just post a link. Attach a demo and explanation on how the link can resolve OP's problem."
+                            } 
+                            if (checkedSymptomIds.includes("job")){
+                                textRender = "[Are job offers spam?](https://meta.stackoverflow.com/q/276249/14732669)"
+                            }
+                            if (checkedSymptomIds.includes("disclosed")){
+                                textRender = "Even with the disclosure, this post, at its current status, serves only to promote the linked page."
+                            } 
+                            break;
                         case "llm":
                             textRender = "LLM suspect."
                             if(checkedSymptomIds.includes("similar") && checkedSymptomIds.includes("bullet")) {
@@ -100,22 +115,6 @@
                                 textRender += " Also observed " + extraSymptoms.map(e => e[1]).join(" and ")
                                 textRender += "."
                             }
-                            
-                            break;
-                        case "spam":
-                            textRender = ""
-                            if (checkedSymptomIds.includes("undisclosed")){
-                                textRender += "You need to disclose your affiliation with the linked product, otherwise it is regarded as spam. Read [How to not be a spammer](https://stackoverflow.com/help/promotion)."
-                            }
-                            if (checkedSymptomIds.includes("linkonly")){
-                                textRender += " Don't just post a link. Attach a demo and explanation on how the link can resolve OP's problem."
-                            } 
-                            if (checkedSymptomIds.includes("job")){
-                                textRender = "[Are job offers spam?](https://meta.stackoverflow.com/q/276249/14732669)"
-                            }
-                            if (checkedSymptomIds.includes("disclosed")){
-                                textRender = "Even with the disclosure, this post, at its current status, serves only to promote the linked page."
-                            } 
                             break;
                         case "homework":
                             textRender = "[How do I ask and answer homework questions?](https://meta.stackoverflow.com/q/334822/14732669)"
@@ -142,8 +141,8 @@
     </script> 
     <form name="categoryForm">
         <select name="category" id="category" onchange="selectCategory(this.value)" onload="selectCategory(this.value)">
-            <option value="llm">LLM</option>
             <option value="spam">Spam</option>
+            <option value="llm">LLM</option>
             <option value="homework">Homework</option>
             <option value="duplicate">Duplicate answers</option>
             <option value="cs">Customer support question</option>

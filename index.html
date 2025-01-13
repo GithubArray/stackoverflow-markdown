@@ -46,9 +46,7 @@
                 case "spam":
                     symptoms = [
                         {id: "undisclosed", label: "undisclosed affiliation"},
-                        {id: "linkonly", label: "link-only answer"},
-                        {id: "job", label: "job offer"},
-                        {id: "disclosed", label: "disclosed"}
+                        {id: "linkonly", label: "link-only answer"}
                     ];
                     break;
                 case "homework": 
@@ -65,6 +63,17 @@
                     symptoms = [
                         {id: "cs", label: "Customer support question"}
                     ]
+                    break;
+                case "job":
+                    symptoms = [
+                        {id: "job", label: "Job offer"}
+                    ]
+                    break;
+                case "disclosed":
+                    symptoms = [
+                        {id: "disclosed", label: "disclosed"}
+                    ]
+                    break;
                 default:
                     break;
             }
@@ -81,16 +90,10 @@
                         case "spam":
                             textRender = ""
                             if (checkedSymptomIds.includes("undisclosed")){
-                                textRender += "You need to disclose your affiliation with the linked product, otherwise it is regarded as spam. Read [How to not be a spammer](https://stackoverflow.com/help/promotion)."
+                                textRender += "You need to disclose your affiliation with the linked product, otherwise it is regarded as spam. Read [How to not be a spammer](https://stackoverflow.com/help/promotion). "
                             }
                             if (checkedSymptomIds.includes("linkonly")){
-                                textRender += " Don't just post a link. Attach a demo and explanation on how the link can resolve OP's problem."
-                            } 
-                            if (checkedSymptomIds.includes("job")){
-                                textRender = "[Are job offers spam?](https://meta.stackoverflow.com/q/276249/14732669)"
-                            }
-                            if (checkedSymptomIds.includes("disclosed")){
-                                textRender = "Even with the disclosure, this post, at its current status, serves only to promote the linked page."
+                                textRender += "Don't just post a link. Attach a demo and explanation on how the link can resolve OP's problem."
                             } 
                             break;
                         case "llm":
@@ -120,6 +123,12 @@
                         case "cs":
                             textRender = "[Why can't I ask customer service-related questions on Stack Overflow?](//meta.stackoverflow.com/a/255746)"
                             break;
+                        case "job":
+                            textRender = "[Are job offers spam?](https://meta.stackoverflow.com/q/276249/14732669)"
+                            break;
+                        case "disclosed":
+                            textRender = "Even with the disclosure, this post, at its current status, serves only to promote the linked page."
+                            break;
                         default:
                             break;
                     }
@@ -141,6 +150,8 @@
             <option value="homework">Homework</option>
             <option value="duplicate">Duplicate answers</option>
             <option value="cs">Customer support question</option>
+            <option value="job">Job offer</option>
+            <option value="disclosed">Spam with disclosed affiliation</option>
         </select>
     </form>
     <form name="symptomForm"></form>

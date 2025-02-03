@@ -74,6 +74,11 @@
                         {id: "disclosed", label: "disclosed"}
                     ]
                     break;
+                case "replit":
+                symptoms = [
+                        {id: "replit", label: "replit"}
+                    ]
+                    break;
                 default:
                     break;
             }
@@ -129,6 +134,9 @@
                         case "disclosed":
                             textRender = "Even with the disclosure, this post, at its current status, serves only to promote the linked page."
                             break;
+                        case "replit":
+                            textRender = "Please read the [tag info of repl.it](https://stackoverflow.com/tags/replit/info) and reach out to their support channel"
+                            break;
                         default:
                             break;
                     }
@@ -152,6 +160,7 @@
             <option value="cs">Customer support question</option>
             <option value="job">Job offer</option>
             <option value="disclosed">Spam with disclosed affiliation</option>
+            <option value="replit">repl.it support question</option>
         </select>
     </form>
     <form name="symptomForm"></form>

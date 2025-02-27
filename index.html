@@ -94,12 +94,13 @@
                     switch(categoryInput) {
                         case "spam":
                             textRender = ""
-                            if (checkedSymptomIds.includes("undisclosed")){
+                            if (checkedSymptomIds.includes("undisclosed") && checkedSymptomIds.includes("linkonly")){
+                                textRender += "You need to disclose your affiliation with the linked product, otherwise it is regarded as spam. Read [How to not be a spammer](https://stackoverflow.com/help/promotion). Also, don't just post a link. Attach a demo and explanation on how the link can resolve OP's problem."
+                            } else if (checkedSymptomIds.includes("undisclosed")){
                                 textRender += "You need to disclose your affiliation with the linked product, otherwise it is regarded as spam. Read [How to not be a spammer](https://stackoverflow.com/help/promotion). "
+                            } else if (checkedSymptomIds.includes("linkonly")){
+                                textRender = "Don't just post a link. Attach a demo and explanation on how the link can resolve OP's problem."
                             }
-                            if (checkedSymptomIds.includes("linkonly")){
-                                textRender += "Don't just post a link. Attach a demo and explanation on how the link can resolve OP's problem."
-                            } 
                             break;
                         case "llm":
                             textRender = "LLM suspect."

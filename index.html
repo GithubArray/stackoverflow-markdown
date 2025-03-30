@@ -40,7 +40,8 @@
                         {id: "llmSpam", label: "potential LLM spamming behaviour"},
                         {id: "inconsistent", label: "inconsistent writing styles"},
                         {id: "wpm", label: "high wpm"},
-                        {id: "highAnswerRate", label: "high answer rate"}
+                        {id: "highAnswerRate", label: "high answer rate"},
+                        {id: "hallucinated", label: "potentially hallucinated information"}
                     ];
                     break;
                 case "spam":
@@ -71,7 +72,8 @@
                     break;
                 case "disclosed":
                     symptoms = [
-                        {id: "disclosed", label: "disclosed"}
+                        {id: "disclosed", label: "disclosed"},
+                        {id: "linkonly", label: "link-only answer"}
                     ]
                     break;
                 case "replit":
@@ -109,7 +111,7 @@
                             } else if (checkedSymptomIds.includes("similar")){
                                 textRender += " Similar output as ChatGPT."
                             }
-                            let extraSymptoms = checkedSymptoms.filter(symptom => ["llmSpam", "inconsistent", "wpm", "highAnswerRate"].includes(symptom[0]))
+                            let extraSymptoms = checkedSymptoms.filter(symptom => ["llmSpam", "inconsistent", "wpm", "highAnswerRate", "hallucinated"].includes(symptom[0]))
                             let extraSymptomCount = extraSymptoms.length;
                             if (extraSymptomCount >= 3) {
                                 textRender += " Also observed " + extraSymptoms.slice(0, -1).map(e => e[1]).join(", ")
@@ -133,7 +135,14 @@
                             textRender = "[Are job offers spam?](https://meta.stackoverflow.com/q/276249/14732669)"
                             break;
                         case "disclosed":
-                            textRender = "Even with the disclosure, this post, at its current status, serves only to promote the linked page."
+                            textRender = ""
+                            if (checkedSymptomIds.includes("disclosed") && checkedSymptomIds.includes("linkonly")){
+                                textRender += "Even with the disclosure, this post, at its current status, serves only to promote the linked page. Read [How to not be a spammer](https://stackoverflow.com/help/promotion). Also, don't just post a link. Attach a demo and explanation on how the link can resolve OP's problem."
+                            } else if (checkedSymptomIds.includes("disclosed")){
+                                textRender += "Even with the disclosure, this post, at its current status, serves only to promote the linked page. "
+                            } else if (checkedSymptomIds.includes("linkonly")){
+                                textRender = "Don't just post a link. Attach a demo and explanation on how the link can resolve OP's problem."
+                            }
                             break;
                         case "replit":
                             textRender = "[Why can't I ask customer service-related questions on Stack Overflow?](//meta.stackoverflow.com/a/255746). Also, please read the [tag info of repl.it](https://stackoverflow.com/tags/replit/info) and reach out to their support channel."

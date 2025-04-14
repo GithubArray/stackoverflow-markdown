@@ -76,9 +76,14 @@
                         {id: "linkonly", label: "link-only answer"}
                     ]
                     break;
-                case "replit":
-                symptoms = [
+                case "cs":
+                    symptoms = [
                         {id: "replit", label: "replit"}
+                    ]
+                    break;
+                case "bns":
+                    symptoms = [
+                        {id: "bns", label: "blatantly nonsense answer"}
                     ]
                     break;
                 default:
@@ -147,6 +152,9 @@
                         case "replit":
                             textRender = "[Why can't I ask customer service-related questions on Stack Overflow?](//meta.stackoverflow.com/a/255746). Also, please read the [tag info of repl.it](https://stackoverflow.com/tags/replit/info) and reach out to their support channel."
                             break;
+                        case "bns":
+                            textRender = "blatantly nonsense answer as mentioned in [my meta post](https://meta.stackoverflow.com/q/433518/14732669)"
+                            break;
                         default:
                             break;
                     }
@@ -171,6 +179,7 @@
             <option value="job">Job offer</option>
             <option value="disclosed">Spam with disclosed affiliation</option>
             <option value="replit">repl.it support question</option>
+            <option value="bns">blatantly nonsense answer</option>
         </select>
     </form>
     <form name="symptomForm"></form>

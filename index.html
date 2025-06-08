@@ -46,6 +46,7 @@
                     break;
                 case "spam":
                     symptoms = [
+                        {id: "recent", label: "published recently"},
                         {id: "undisclosed", label: "undisclosed affiliation"},
                         {id: "linkonly", label: "link-only answer"}
                     ];
@@ -101,6 +102,11 @@
                     switch(categoryInput) {
                         case "spam":
                             textRender = ""
+                            if (
+                                checkedSymptomIds.includes("recent")
+                            ){
+                                textRender += "The linked resource was published recently. This suggests that you are likely the owner of the linked resource. "
+                            }
                             if (checkedSymptomIds.includes("undisclosed") && checkedSymptomIds.includes("linkonly")){
                                 textRender += "You need to disclose your affiliation with the linked product, otherwise it is regarded as spam. Read [How to not be a spammer](https://stackoverflow.com/help/promotion). Also, don't just post a link. Attach a demo and explanation on how the link can resolve OP's problem."
                             } else if (checkedSymptomIds.includes("undisclosed")){

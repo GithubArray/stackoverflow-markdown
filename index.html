@@ -7,8 +7,9 @@
 <body>
     <script>    
         document.onreadystatechange=function(){
-            let defaultCategory = document.getElementById("category").options[0].value;
-            selectCategory(defaultCategory)
+            let dropdown = document.getElementById("category");
+            let selectedCategory = dropdown.options[dropdown.selectedIndex].value;
+            selectCategory(selectedCategory)
 
             document.getElementById("copyButton").addEventListener("click", function(e){
                 let textToCopy = document.getElementById("textRender").innerHTML;

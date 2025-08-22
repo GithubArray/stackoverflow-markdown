@@ -42,6 +42,7 @@
                         {id: "inconsistent", label: "inconsistent writing styles"},
                         {id: "wpm", label: "high wpm"},
                         {id: "highAnswerRate", label: "high answer rate"},
+                        {id: "copyEdit", label: "\"copyEdit\" marker"},
                         {id: "hallucinated", label: "potentially hallucinated information"}
                     ];
                     break;
@@ -123,7 +124,7 @@
                             } else if (checkedSymptomIds.includes("similar")){
                                 textRender += " Similar output as ChatGPT."
                             }
-                            let extraSymptoms = checkedSymptoms.filter(symptom => ["llmSpam", "inconsistent", "wpm", "highAnswerRate", "hallucinated"].includes(symptom[0]))
+                            let extraSymptoms = checkedSymptoms.filter(symptom => ["llmSpam", "inconsistent", "wpm", "highAnswerRate", "hallucinated", "copyEdit"].includes(symptom[0]))
                             let extraSymptomCount = extraSymptoms.length;
                             if (extraSymptomCount >= 3) {
                                 textRender += " Also observed " + extraSymptoms.slice(0, -1).map(e => e[1]).join(", ")
